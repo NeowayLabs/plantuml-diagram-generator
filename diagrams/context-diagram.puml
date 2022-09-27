@@ -1,0 +1,26 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+'Users
+!define USER_DESCRIPTION User with access to Random Platform
+
+Person(user, "User", USER_DESCRIPTION)
+
+'Systems
+System_Ext(application, "Web Application", "Web Application that centralizes all solutions")
+Boundary(neoBoundary, "NeoBoundary", "Some extra definition") {
+  System_Ext(edge, "Edge", "Some edge layer responsible to deliver your application to the internet")
+  System(neoSolution, "NeoSolution", "Brand new solution that will integrate some services")
+}
+Boundary(thirdParty, "Third Party") {
+  System_Ext(filestorage, "File Storage", "Blob storage file")
+  System_Ext(authSystem, "Authentication System", "Provides authentication services as third-party authentications")
+}
+
+Rel(user, application, "Access NeoSolution over")
+Rel(application, edge, "Made visible to the internet through")
+Rel_R(edge, neoSolution, "Balance requests to")
+Rel_U(neoSolution, filestorage, "Read and Store files on")
+Rel(neoSolution, authSystem, "Authenticate users using")
+
+@enduml
